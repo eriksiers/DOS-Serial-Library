@@ -34,7 +34,7 @@
 #define SER_HANDSHAKING_RTSCTS          2
 #define SER_HANDSHAKING_DTRDSR          3
 
-/* Parity defines */
+/* Parity defines (added to avoid magic numbers 2/29/24 EES) */
 #define PARITY_NONE  'n'
 #define PARITY_EVEN  'e'
 #define PARITY_ODD   'o'
@@ -61,7 +61,7 @@
 #define SER_ERR_LOCK_MEM                -16 /* Could not lock memory in DPMI mode */
 
 
-/* Name:   GetErrorText()
+/* Name:   GetErrorText()     added 2/29/24 EES
  *
  * Desc:   Return the text description of a numeric error code.
  *
@@ -78,9 +78,8 @@ char* GetErrorText (int err_num);
  *
  * Params: int com:           Communications port (COM_1, COM_2, COM_3, COM_4)
  *
- * Return: SER_ERR_ALREADY_OPEN     port is open
- *         SER_ERR_NOT_OPEN         port is not open
- *         SER_ERR_INVALID_COMPORT  invalid port number was passed in
+ * Return: 1    port is open
+ *         0    port is not open
  */
 int serial_is_port_open(int com);
 
