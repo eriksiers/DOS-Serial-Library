@@ -863,17 +863,15 @@ static void serial_free_irq(int comport)
 
 int serial_is_port_open(int portnum)
 {
+    // added 2/29/24 EES
+    //       4/25/24 EES simplified based on kstenerud's recommendation
     if (portnum < COM_MIN || portnum > COM_MAX)
-        return SER_ERR_INVALID_COMPORT; // Error: Invalid port number
+        return 0; // Invalid port number; can't be opened
 
     serial_struct* com = (serial_struct*)(g_comports + portnum);
 
-    if (com->open == 1)
-    {
-        return SER_ERR_ALREADY_OPEN;    // Port is open
-    } else {
-        return SER_ERR_NOT_OPEN;        // Port is not open
-    }
+    // Note: If 'open' can ever have anything other than 1 or 0, this will need updating.
+    return com->open;
 }
 
 int serial_open(int comport, long bps, int data_bits, char parity, int stop_bits, int handshaking)
@@ -1683,6 +1681,7 @@ int serial_clear_rx_buffer(int comport)
 
 char* GetErrorText (int err_num)
 {
+    /* added 2/29/24 EES */
     switch (err_num)
     {
         case SER_SUCCESS:                    return "Function completed successfully";                  break;
